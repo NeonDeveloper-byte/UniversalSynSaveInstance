@@ -14942,10 +14942,11 @@ local function v4318(v1125, v1126)
 		end;
 	end;
 	v4328 = function(v4334)
-		v16 = "vanilla";
-		local v4335 = v4333(v4334);
-		local l_v551_0 = v551;
-		v16 = "mul227";
+	v16 = "vanilla";
+	local v4335 = v4333(v4334);
+	local l_v551_0 = v551;
+	if l_v551_0 == 0 and not string.match(v4335, "Unknown opcode") then return v4335; end;
+	v16 = "mul227";
 		local v4337 = v4333(v4334);
 		local l_v551_1 = v551;
 		if l_v551_1 < l_v551_0 then
@@ -14979,10 +14980,11 @@ local function v4318(v1125, v1126)
 	return {
 		decompile = v4328, 
 		disassemble = function(v4345)
-			v16 = "vanilla";
-			local v4346 = v4344(v4345);
-			local l_v551_2 = v551;
-			v16 = "mul227";
+		v16 = "vanilla";
+		local v4346 = v4344(v4345);
+		local l_v551_2 = v551;
+		if l_v551_2 == 0 then return v4346; end;
+		v16 = "mul227";
 			local v4348 = v4344(v4345);
 			local l_v551_3 = v551;
 			if l_v551_3 < l_v551_2 then
