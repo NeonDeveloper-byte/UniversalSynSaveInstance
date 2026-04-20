@@ -7,22 +7,8 @@ join our own discord server if u want lol
 # Loadstring
 
 ```lua
-local synsaveinstance = loadstring(game:HttpGet("https://raw.githubusercontent.com/NeonDeveloper-byte/UniversalSynSaveInstance/refs/heads/main/saveinstance.luau", true), "saveinstance")();
-local SaveinstanceOptions = {  }
-synsaveinstance(SaveinstanceOptions);
-```
-
-# rewritten version
-
-```lua
 local synsaveinstance = loadstring(game:HttpGet("https://raw.githubusercontent.com/NeonDeveloper-byte/UniversalSynSaveInstance/refs/heads/main/saveinstance_rewrite.luau", true), "saveinstance")();
 local SaveinstanceOptions = {usekonstantdecompiler=false} --set to true if u dont have a decompiler
-synsaveinstance(SaveinstanceOptions);
-```
-
-```lua
-local synsaveinstance = loadstring(game:HttpGet("https://raw.githubusercontent.com/NeonDeveloper-byte/UniversalSynSaveInstance/refs/heads/main/saveinstance_rewrite.luau", true), "saveinstance")();
-local SaveinstanceOptions = {usekonstantdecompiler=true} --set to true if u dont have a decompiler
 synsaveinstance(SaveinstanceOptions);
 ```
 
