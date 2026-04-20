@@ -2948,8 +2948,8 @@ local function saveinstance(CustomOptions, CustomOptions2)
 				end
 
 				local ok, result = decomp(script)
-                if StatusText then StatusText.Text = "Decompiling: " .. script.Name end
-                if not result then
+				if StatusText then StatusText.Text = "Decompiling: " .. script.Name end
+				if not ok or not result then
 					ok, result = false, "Empty Output"
 				end
 
@@ -2974,6 +2974,62 @@ local function saveinstance(CustomOptions, CustomOptions2)
 			ldecompile = function()
 				return "-- Your Executor does NOT have a Decompiler"
 			end
+		end
+	end
+    local function preDecompileScripts(rootList)
+		if OPTIONS.noscripts or not ScriptCache or not decompile then return end
+
+		local scripts = {}
+		local function collect(list)
+			for _, inst in list do
+				local ok2, isLSC = pcall(isLuaSourceContainer, inst)
+				if ok2 and isLSC then
+					local ignored = DecompileIgnore[inst]
+					if ignored == nil then
+						local dc = DecompileIgnore[inst.ClassName]
+						if dc then ignored = dc == true or dc[inst.Name] end
+					end
+					if not ignored then
+						local isLocal = inst:IsA("LocalScript")
+						local isMod = inst:IsA("ModuleScript")
+						local isClient = inst:IsA("Script") and inst.RunContext == Enum.RunContext.Client
+						if isLocal or isMod or isClient then
+							table.insert(scripts, inst)
+						end
+					end
+				end
+				local ok3, children = pcall(inst.GetChildren, inst)
+				if ok3 and #children > 0 then collect(children) end
+			end
+		end
+		collect(rootList)
+
+		local total = #scripts
+		if total == 0 then return end
+
+		local completed, active = 0, 0
+		local CONCURRENCY = 4
+
+		for _, scr in scripts do
+			while active >= CONCURRENCY do task.wait() end
+			active += 1
+			task.spawn(function()
+				ldecompile(scr)
+				active -= 1
+				completed += 1
+				if StatusText then
+					StatusText.Text = string.format(
+						"Pre-decompiling %d / %d scripts (%.0f%%)",
+						completed, total, completed / total * 100
+					)
+				end
+			end)
+		end
+
+		while active > 0 do task.wait() end
+
+		if StatusText then
+			StatusText.Text = "Pre-decompile done. Saving..."
 		end
 	end
 
