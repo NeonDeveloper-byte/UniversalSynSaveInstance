@@ -2234,11 +2234,11 @@ local GLOBAL_ENV = getgenv and getgenv() or _G or shared
 	@param Parameter_2 table -- [OPTIONAL] If present, then Parameter_2 will be assumed to be [SynSaveInstance.CustomOptions table]. And then if the Parameter_1 is an Instance, then it will be assumed to be [SynSaveInstance.CustomOptions table].Object. If Parameter_1 is a table filled with instances ({Instance}), then it will be assumed to be [SynSaveInstance.CustomOptions table].ExtraInstances and IsModel will be true). This exists for sake compatibility with `saveinstance(game, {})`
 ]=]
 
-local function synsaveinstance(CustomOptions, CustomOptions2)
-	if GLOBAL_ENV.USSI then
+local function saveinstance(CustomOptions, CustomOptions2)
+	if GLOBAL_ENV.USI then
 		return
 	end
-	GLOBAL_ENV.USSI = true
+	GLOBAL_ENV.USI = true
 	do
 		local setthreadidentity = global_container.setthreadidentity
 		if setthreadidentity then
@@ -2249,7 +2249,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 	local currentstr, currentsize, totalsize, chunks = "", 0, 0, table.create(1)
 	local savebuffer, savebuffer_size = {}, 1
 	local header =
-		'<!-- Saved by UniversalSynSaveInstance (Join to Copy Games) https://discord.gg/wx4ThpAsmw --><roblox version="4">'
+		'<!-- Saved by UniversalSaveInstance --><roblox version="4">'
 
 	local StatusText
 
@@ -2508,7 +2508,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 
 		warn(text)
 
-		GLOBAL_ENV.USSI = nil
+		GLOBAL_ENV.USI = nil
 		return
 	end
 
@@ -2686,7 +2686,7 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		end
 
 		GLOBAL_ENV[placename] = true
-		GLOBAL_ENV.USSI = nil
+		GLOBAL_ENV.USI = nil
 
 		if mode ~= "scripts" then
 			IgnorePropertiesOfNotScriptsOnScriptsMode = nil
@@ -3906,8 +3906,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		end
 	end
 
-	if OPTIONS.KillAllScripts and not GLOBAL_ENV.USSI_KAS then
-		GLOBAL_ENV.USSI_KAS = true
+	if OPTIONS.KillAllScripts and not GLOBAL_ENV.USI_KAS then
+		GLOBAL_ENV.USI_KAS = true
 		-- * partial credits @centerepic
 		game:GetService("ScriptContext"):SetTimeout(math.clamp(SaveCacheInterval * 0.000047, 10, 30))
 
@@ -4254,4 +4254,4 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 	end
 end
 
-return synsaveinstance
+return saveinstance
