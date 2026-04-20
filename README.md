@@ -1,7 +1,7 @@
 [Discord](https://discord.gg/72txPvDK4f)
 join our own discord server if u want lol
 
-# LIST OF WORKING GETHIDDENPROPERTY EXEC: FLUXUS,SWIFT,Velocity,Xeno
+# LIST OF WORKING GETHIDDENPROPERTY EXEC: Fluxus,Swift,Velocity,Xeno
 # https://github.com/luau/UniversalSynSaveInstance
 
 # Loadstring
