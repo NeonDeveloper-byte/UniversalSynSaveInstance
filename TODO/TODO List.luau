@@ -1,3 +1,4 @@
 -- TODO
 -- Add FE Bypass
+-- Add StreamingEnabled Bypass
 -- Make Lua Decompiling Faster 
