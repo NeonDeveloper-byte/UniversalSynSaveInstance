@@ -2863,7 +2863,7 @@ local function saveinstance(CustomOptions, CustomOptions2)
 			return pcall(f, script)
 		end or function(script) -- TODO Ideally use ... (vararg) instead of `script` in case this is reused for something other than `decompile` & `getscriptbytecode`
 			local thread = coroutine.running()
-			local timeoutThread, isCancelled
+			local timeoutThread, isCancelled, isResumed
 
 			timeoutThread = task.delay(timeout, function()
 				isCancelled = true -- TODO task.cancel
@@ -2947,8 +2947,8 @@ local function saveinstance(CustomOptions, CustomOptions2)
 					-- task.wait() -- TODO Maybe remove?
 				end
 
-				local ok, result = decomp(script)
 				if StatusText then StatusText.Text = "Decompiling: " .. script.Name end
+                local ok, result = decomp(script)
 				if not ok or not result then
 					ok, result = false, "Empty Output"
 				end
@@ -3008,14 +3008,15 @@ local function saveinstance(CustomOptions, CustomOptions2)
 		if total == 0 then return end
 
 		local completed, active = 0, 0
-        local CONCURRENCY = 2
+        local CONCURRENCY = 1
 
         for _, scr in scripts do
         while active >= CONCURRENCY do task.wait() end
         active += 1
         task.spawn(function()
-        pcall(ldecompile, scr)
-				active -= 1
+          pcall(ldecompile, scr)
+          task.wait()
+            active -= 1
 				completed += 1
 				if StatusText then
 					StatusText.Text = string.format(
